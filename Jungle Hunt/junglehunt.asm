@@ -82,7 +82,7 @@ preparar_bola: add $7, $11, $0
 	addi $5, $0, 45 #c
 	addi $6, $0, 128 #Largura
 	jal EndPxy
-	addi $15, $0, 200 #falor por for
+	addi $15, $0, 200 #contador
 	
 bola: 	add $2, $2, 4
 	addi $8, $0, 0xBE8B51 #cor
