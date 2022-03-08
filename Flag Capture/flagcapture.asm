@@ -76,7 +76,13 @@ main:
 	addi $23, $0, 'd'
 	addi $24, $0, 'w'
 	addi $25, $0, 'f'
-
+	
+preparar_enfeite: lui $4, 0x1001
+	addi $5, $0, 3 #c
+	addi $6, $0, 128 #Largura
+	addi $7, $0, 16 #Largura
+	jal EndPxy
+	add $18, $2, $0 #guarda a posicao do enfeite
 	
 preparar_boneco: lui $4, 0x1001
 	addi $5, $0, 13 #c
@@ -127,9 +133,10 @@ boneco:
 	add $2, $2, 16
 	sw $8, 0($2)
 	add $2, $2, 4
-
+		
+laco: 
+	lw $15, 0($20)
 	
-laco: 	lw $15, 0($20)
 	beq $15, $0, naodig
 	lw $15, 4($20) #add oq foi digitado no $15
 	beq $15, $21, preparar_mover_esquerda #a
@@ -137,9 +144,10 @@ laco: 	lw $15, 0($20)
 	beq $15, $23, preparar_mover_direita #d
 	beq $15, $24,  preparar_mover_cima#w
 	beq $15, $25,  verificar_bandeira#f
+	
 	j laco
 	
-naodig: j laco 
+naodig: j pisca
 
 verificar_bandeira:
 	beq $7, 49, verificar2
@@ -159,7 +167,7 @@ boneco_esquerda:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -173,7 +181,7 @@ boneco_esquerda:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -183,7 +191,7 @@ boneco_esquerda:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -208,7 +216,7 @@ boneco_apagar_dir:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -222,7 +230,7 @@ boneco_apagar_dir:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -232,7 +240,7 @@ boneco_apagar_dir:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -261,7 +269,7 @@ boneco_direita:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -275,7 +283,7 @@ boneco_direita:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -285,7 +293,7 @@ boneco_direita:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -310,7 +318,7 @@ boneco_apagar_esq:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -324,7 +332,7 @@ boneco_apagar_esq:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -334,7 +342,7 @@ boneco_apagar_esq:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -362,7 +370,7 @@ boneco_baixo:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -376,7 +384,7 @@ boneco_baixo:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -386,7 +394,7 @@ boneco_baixo:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -412,7 +420,7 @@ preparar_apagarCima:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -426,7 +434,7 @@ preparar_apagarCima:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -436,7 +444,7 @@ preparar_apagarCima:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -464,7 +472,7 @@ boneco_cima:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -478,7 +486,7 @@ boneco_cima:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -488,7 +496,7 @@ boneco_cima:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -514,7 +522,7 @@ preparar_apagarBaixo:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -528,7 +536,7 @@ preparar_apagarBaixo:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -538,7 +546,7 @@ preparar_apagarBaixo:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -595,7 +603,7 @@ apagar:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) # inicio cabeça
+	sw $8, 0($2) # inicio cabeÃ§a
 	add $2, $2, 504
 	sw $8, 0($2)
 	add $2, $2, 4
@@ -609,7 +617,7 @@ apagar:
 	add $2, $2, 4
 	sw $8, 0($2) #l3
 	add $2, $2, 508
-	sw $8, 0($2) #pescoço
+	sw $8, 0($2) #pescoÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #braco
 	add $2, $2, 4
@@ -619,7 +627,7 @@ apagar:
 	add $2, $2, 4
 	sw $8, 0($2)
 	add $2, $2, 4
-	sw $8, 0($2) #fim braço
+	sw $8, 0($2) #fim braÃ§o
 	add $2, $2, 504
 	sw $8, 0($2) #barriga
 	add $2, $2, 508
@@ -708,7 +716,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da segunda linah da mensagem (you)
+	addi $2, $2, 448 #ComeÃ§o da segunda linah da mensagem (you)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -720,7 +728,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da terceira linha da mensagem (you)
+	addi $2, $2, 448 #ComeÃ§o da terceira linha da mensagem (you)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -732,7 +740,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 452 #Começo da Quarta linha da mensagem (you)
+	addi $2, $2, 452 #ComeÃ§o da Quarta linha da mensagem (you)
 	sw $8, 0($2)
 	addi $2, $2, 8
 	sw $8, 0($2)
@@ -744,7 +752,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 456 #Começo da Quinta linhda da mensagem (you)
+	addi $2, $2, 456 #ComeÃ§o da Quinta linhda da mensagem (you)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -754,7 +762,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 456 #Começo da Sexta Linha da mensagem (you)
+	addi $2, $2, 456 #ComeÃ§o da Sexta Linha da mensagem (you)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -764,7 +772,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 456 #Começo da Sétima Linha da mensagem (you)
+	addi $2, $2, 456 #ComeÃ§o da SÃ©tima Linha da mensagem (you)
 	sw $8, 0($2)
 	addi $2, $2, 20
 	sw $8, 0($2)
@@ -778,7 +786,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 4
 	sw $8, 0($2)
-	addi $2, $2, -3056 #Começo da primeira linha mensagen  (Win)
+	addi $2, $2, -3056 #ComeÃ§o da primeira linha mensagen  (Win)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -796,7 +804,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da segunda linha mensagem (win)
+	addi $2, $2, 448 #ComeÃ§o da segunda linha mensagem (win)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -808,7 +816,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 12
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da terceira linha mensagem (win)
+	addi $2, $2, 448 #ComeÃ§o da terceira linha mensagem (win)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -822,7 +830,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 8
 	sw $8, 0($2)
-	addi $2, $2, 448 #começo da quarta linha mensagem win
+	addi $2, $2, 448 #comeÃ§o da quarta linha mensagem win
 	sw $8, 0($2)
 	addi $2, $2, 8
 	sw $8, 0($2)
@@ -838,7 +846,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 4
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da quinta linha da mensagem win
+	addi $2, $2, 448 #ComeÃ§o da quinta linha da mensagem win
 	sw $8, 0($2)
 	addi $2, $2, 4
 	sw $8, 0($2)
@@ -854,7 +862,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 4
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da sexta linha da mensagem
+	addi $2, $2, 448 #ComeÃ§o da sexta linha da mensagem
 	sw $8, 0($2)
 	addi $2, $2, 4
 	sw $8, 0($2)
@@ -868,7 +876,7 @@ you_win:
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
-	addi $2, $2, 448 #Começo da sétima linha da mensagem (win)
+	addi $2, $2, 448 #ComeÃ§o da sÃ©tima linha da mensagem (win)
 	sw $8, 0($2)
 	addi $2, $2, 16
 	sw $8, 0($2)
@@ -896,6 +904,290 @@ load:
 	bne $10, 8192, load
 	jr $31
 
+pisca:	
+	add $17, $18, $0
+enfeite: add $8, $0, 0xAF993A #cor
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	add $17, $17, -2000
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	add $17, $17, -1780
+	sw $8, 0($17) #fim dos primeiros
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	add $17, $17, -2000
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	
+tempo: addi $12, $12, 1
+	bne $12, 4000, tempo
+	add $12, $0, $0 #zera contador
+	
+	add $17, $18, $0
+enfeite2: add $8, $0, 0xffffff #cor
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	add $17, $17, -2000
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	add $17, $17, -1780
+	sw $8, 0($17) #fim dos primeiros
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	add $17, $17, -2000
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #cima
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, -512
+	sw $8, 0($17) #esq
+	add $17, $17, 12
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17)
+	add $17, $17, 508
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) #dir
+	add $17, $17, 500
+	sw $8, 0($17)
+	add $2, $2, 4
+	sw $8, 0($17)
+	add $17, $17, 512
+	sw $8, 0($17)
+	add $17, $17, 4
+	sw $8, 0($17) 
+	add $17, $17, -512
+	sw $8, 0($17) #baixo
+	tempo2: addi $12, $12, 1
+	bne $12, 4000, tempo2
+	add $12, $0, $0 #zera contador
+	j laco
 
 	
 #rotina para calcular end de ponto (l,c)
