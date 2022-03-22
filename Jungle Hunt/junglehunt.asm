@@ -70,22 +70,112 @@ ln063:  .word 0x00768d21 0x00768d21 0x00768d21 0x00768d21 0x00768d21 0x00768d21 
 main:
 	lui $t0 0x1001
 	jal loop
-	 
-movimentar: add $11, $0, $0
-	jal preparar_bola
-	addi $25, $25, 1
-	bne $25, 1000, movimentar
-	j fim
+	lui $20, 0xffff
+	addi $21, $0, 'a'
+	addi $24, $0, 'w'
+	addi $23, $0, 'd'
 
-preparar_bola: add $7, $11, $0
-	lui $4, 0x1001
-	addi $5, $0, 45 #c
+preparar_bola: lui $4, 0x1001
+	addi $16, $0, 0
+	addi $17, $0, 45
+	add $5, $0, $17 #c
 	addi $6, $0, 128 #Largura
+	add $7, $0, $16 #Largura
 	jal EndPxy
-	addi $15, $0, 200 #contador
+	add $8, $0, 0xBE8B51 #cor
+	jal bola
+	
+preparar_persona: lui $4, 0x1001
+	addi $5, $0, 39 #c
+	addi $6, $0, 128 #Largura
+	addi $7, $0, 103 #Largura
+	jal EndPxy
+	jal persona
+
+laco: 
+	lw $15, 0($20)
+	beq $15, $0, naodig
+	lw $15, 4($20) #add oq foi digitado no $15
+	beq $15, $21, preparar_mover_esquerda #a
+	beq $15, $23, preparar_mover_direita #d
+	beq $15, $24, preparar_pular #w
+	
+	j laco
+	
+naodig: j laco
+
+preparar_pular:
+	jal EndPxy
+	jal apagar_persona
+	lui $4, 0x1001
+	addi $6, $0, 128 #Largura
+	subi $5, $5, 7 #c
+	jal EndPxy
+	jal persona
+	
+tempo: addi $12, $12, 1
+	bne $12, 15000, tempo
+	add $12, $0, $0 #zera contador
+	
+desce: jal EndPxy
+	jal apagar_persona
+	lui $4, 0x1001
+	addi $6, $0, 128 #Largura
+	addi $5, $5, 7 #c
+	jal EndPxy
+	jal persona
+	j mover_bola
+	
+preparar_mover_esquerda: 
+	jal EndPxy
+	jal apagar_persona
+	lui $4, 0x1001
+	addi $6, $0, 128 #Largura
+	subi $7, $7, 7 #Largura
+	jal EndPxy
+	jal persona
+	j mover_bola
+		
+preparar_mover_direita: 
+	jal EndPxy
+	jal apagar_persona
+	lui $4, 0x1001
+	addi $6, $0, 128 #Largura
+	addi $7, $7, 7 #Largura
+	jal EndPxy
+	jal persona
+	j mover_bola
+	
+mover_bola:
+	add $26, $5, $0	
+	add $27, $7, $0	
+	
+	addi $16, $16, 0
+	addi $17, $0, 45
+	add $5, $0, $17 #c
+	addi $6, $0, 128 #Largura
+	add $7, $0, $16 #Largura
+	jal EndPxy
+	addi $8, $0, 0x0f705e #cor
+	jal bola
+	
+	tempo_b: addi $15, $15, 1
+	bne $15, 5000, tempo_b
+	add $15, $0, $0
+	
+	addi $7, $16, 5
+	jal EndPxy
+	add $8, $0, 0xBE8B51 #cor
+	jal bola
+	
+	add $5, $26, $0	
+	add $7, $27, $0
+	
+	addi $16, $16, 5
+	
+	j laco
 	
 bola: 	add $2, $2, 4
-	addi $8, $0, 0xBE8B51 #cor
 	sw $8, 0($2)
 	add $2, $2, 4
 	sw $8, 0($2)
@@ -128,67 +218,7 @@ bola: 	add $2, $2, 4
 	add $2, $2, 4
 	sw $8, 0($2) #fim linha 5
 	addi $7, $7, 1 #add 1 linha
-	
-	add $12, $0, $0 #zera contador
-tempo: addi $12, $12, 1
-	bne $12, 1000, tempo
-	j preparar_apagar_bola
-	
-preparar_apagar_bola: add $11, $7, $0 #guarda o valor de 7 em 11
-	sub $7, $7, 1 #diminuie o valor de 7
-	lui $4, 0x1001
-	addi $5, $0, 45 #c
-	addi $6, $0, 128 #Largura
-	jal EndPxy
-	addi $15, $0, 200 #falor por for
-	
-apagar_bola:	add $2, $2, 4
-	addi $8, $0, 0x196b47 #cor
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2) # fim linha1
-	add $2, $2, 500
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2) #fim linha 2
-	add $2, $2, 496
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2) #fim linha 3
-	add $2, $2, 496
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2) #fim linha 4
-	add $2, $2, 500
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2)
-	add $2, $2, 4
-	sw $8, 0($2) #fim linha 5
-	
-	addi $7, $7, 1
-	bne $7, 99, preparar_bola
-	j movimentar
+	jr $31
 	
 fim: addi $2, $0, 10
 	syscall
@@ -215,3 +245,150 @@ EndPxy: mul $8, $5, $6 #l * L
 	sll $8, $8, 2  # $8 = (l*L+4) * 4
 	add $2, $8, $4 #$2 = $8 + &p0
 fimEndPxy: jr $31
+
+persona: 
+	add $8, $0, 0xffffff #cor
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2) 
+	add $2, $2, 500
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)  #chapeu
+	add $2, $2, 500
+	sw $8, 0($2)
+	add $8, $0, 0xb7b5a0 #cor cabeça
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504 #cabeça
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2) #fim da cabeça
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $8, $0, 0xffffff#corpo inicio
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 8
+	sw $8, 0($2)
+	jr $31
+	
+apagar_persona: 
+	add $8, $0, 0x0f705e #cor
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2) 
+	add $2, $2, 500
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)  #chapeu
+	add $2, $2, 500
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504 #cabeça
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2) #fim da cabeça
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 4
+	sw $8, 0($2)
+	add $2, $2, 504
+	sw $8, 0($2)
+	add $2, $2, 8
+	sw $8, 0($2)
+	jr $31
+
