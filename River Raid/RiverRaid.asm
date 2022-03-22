@@ -83,7 +83,7 @@ preparar_barco: lui $4, 0x1001
 	addi $6, $0, 128 #Largura
 	add $7, $0, $16 #Largura
 	jal EndPxy
-	add $8, $0, 0xff43f #cor
+	add $8, $0, 0xffffff #cor
 	jal barco
 	
 preparar_aviao: lui $4, 0x1001
@@ -139,6 +139,10 @@ preparar_mover_baixo:
 	j mover_barco
 preparar_mover_cima:
 	jal EndPxy
+	
+	lw $27, 0($2)
+	beq $27, 0xffffff, you_lose
+	
 	add $8, $0, 0x2335B1 #cor
 	jal aviao #apaga
 	subi $5, $5, 6 #coluna
@@ -342,7 +346,7 @@ barco:
 	
 you_win: 
 	lui $4, 0x1001
-	addi $5, $0, 4 #c
+	addi $5, $0, 33 #c
 	addi $6, $0, 128 #Largura
 	addi $7, $0, 46 #Largura
 	jal EndPxy
@@ -539,7 +543,213 @@ you_win:
 	addi $2, $2, 16
 	sw $8, 0($2)
 	j fim
-	
+you_lose: lui $4, 0x1001
+	addi $5, $0, 33 #c
+	addi $6, $0, 128 #Largura
+	addi $7, $0, 46 #Largura
+	jal EndPxy
+	addi $8, $0, 0xffffff
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 448 #Come�o da segunda linah da mensagem (you)
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 448 #Come�o da terceira linha da mensagem (you)
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 452 #Come�o da Quarta linha da mensagem (you)
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 456 #Come�o da Quinta linhda da mensagem (you)
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 456 #Come�o da Sexta Linha da mensagem (you)
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 456 #Come�o da S�tima Linha da mensagem (you)
+	sw $8, 0($2)
+	addi $2, $2, 20
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, -3056 #Come�o da primeira linha da mensagem (lose)
+	sw $8, 0($2)
+	addi $2, $2, 24
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 428 #Come�o da segunda Linha da mensagem(lose)
+	sw $8, 0($2)
+	addi $2, $2, 20
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 444 #Come�o da terceira Linha da mensagem(lose)
+	sw $8, 0($2)
+	addi $2, $2, 20
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 24
+	sw $8, 0($2)
+	addi $2, $2, 444 #Come�o da quarta Linha da mensagem(lose)
+	sw $8, 0($2)
+	addi $2, $2, 20
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 436 #Come�o da quinta Linha da mensagem(lose)
+	sw $8, 0($2)
+	addi $2, $2, 20
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 24
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 444 #Come�o da sexta Linha da mensagem(lose)
+	sw $8, 0($2)
+	addi $2, $2, 20
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 8
+	sw $8, 0($2)
+	addi $2, $2, 444 #Come�o da s�tima Linha da mensagem(lose)
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 16
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 12
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	addi $2, $2, 4
+	sw $8, 0($2)
+	j fim
+
 loop: 
 	lw $t1, 0($t0) #ler
 	sw $t1, 0($t0) #salva
